@@ -254,6 +254,8 @@ test.group('Access tokens guard | authenticate', () => {
     const user = await userProvider.findById(1)
     const token = await userProvider.createToken(user!.getOriginal(), ['*'], {
       expiresIn: '20 mins',
+      ip: '255.255.255.0',
+      profileId: 1,
     })
     timeTravel(21 * 60)
 
@@ -291,6 +293,8 @@ test.group('Access tokens guard | authenticate', () => {
     const user = await userProvider.findById(1)
     const token = await userProvider.createToken(user!.getOriginal(), ['*'], {
       expiresIn: '20 mins',
+      ip: '255.255.255.0',
+      profileId: 1,
     })
     await assert.rejects(() => guard.authenticate(), 'Unauthorized access')
 

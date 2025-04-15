@@ -83,6 +83,8 @@ export type AccessTokenDbColumns = {
    * generated
    */
   tokenable_id: string | number | BigInt
+  profile_id: number
+  ip: string
 
   /**
    * A unique type for the token. It is used to

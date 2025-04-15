@@ -107,6 +107,8 @@ export class DbAccessTokensProvider<TokenableModel extends LucidModel>
       type: dbRow.type,
       name: dbRow.name,
       hash: dbRow.hash,
+      profileId: dbRow.profile_id,
+      ip: dbRow.ip,
       abilities: JSON.parse(dbRow.abilities),
       createdAt:
         typeof dbRow.created_at === 'number' ? new Date(dbRow.created_at) : dbRow.created_at,
@@ -136,6 +138,8 @@ export class DbAccessTokensProvider<TokenableModel extends LucidModel>
     options?: {
       name?: string
       expiresIn?: string | number
+      ip: string
+      profileId: number
     }
   ) {
     this.#ensureIsPersisted(user)
@@ -159,6 +163,8 @@ export class DbAccessTokensProvider<TokenableModel extends LucidModel>
      */
     const dbRow: Omit<AccessTokenDbColumns, 'id'> = {
       tokenable_id: transientToken.userId,
+      profile_id: options?.profileId!,
+      ip: options?.ip!,
       type: this.type,
       name: options?.name || null,
       hash: transientToken.hash,
@@ -191,6 +197,8 @@ export class DbAccessTokensProvider<TokenableModel extends LucidModel>
     return new AccessToken({
       identifier: id,
       tokenableId: dbRow.tokenable_id,
+      profileId: dbRow.profile_id,
+      ip: dbRow.ip,
       type: dbRow.type,
       prefix: this.prefix,
       secret: transientToken.secret,

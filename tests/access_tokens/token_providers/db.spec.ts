@@ -82,7 +82,11 @@ test.group('Access tokens provider | DB | create', () => {
       password: 'secret',
     })
 
-    const token = await User.authTokens.create(user, ['*'], { expiresIn: '20 mins' })
+    const token = await User.authTokens.create(user, ['*'], {
+      expiresIn: '20 mins',
+      ip: '255.255.255.0',
+      profileId: 1,
+    })
     assert.exists(token.identifier)
     assert.instanceOf(token, AccessToken)
     assert.equal(token.tokenableId, user.id)
@@ -129,6 +133,8 @@ test.group('Access tokens provider | DB | create', () => {
     const token = await User.authTokens.create(user, ['*'], {
       expiresIn: '20 mins',
       name: 'List projects',
+      ip: '255.255.255.0',
+      profileId: 1,
     })
     assert.exists(token.identifier)
     assert.instanceOf(token, AccessToken)
@@ -313,7 +319,11 @@ test.group('Access tokens provider | DB | verify', () => {
       password: 'secret',
     })
 
-    const token = await User.authTokens.create(user, ['*'], { name: 'List projects' })
+    const token = await User.authTokens.create(user, ['*'], {
+      name: 'List projects',
+      ip: '255.255.255.0',
+      profileId: 1,
+    })
     const freshToken = await User.authTokens.verify(new Secret(token.value!.release()))
 
     assert.instanceOf(freshToken, AccessToken)
@@ -351,7 +361,11 @@ test.group('Access tokens provider | DB | verify', () => {
       password: 'secret',
     })
 
-    const token = await User.authTokens.create(user, ['*'], { expiresIn: '20 mins' })
+    const token = await User.authTokens.create(user, ['*'], {
+      expiresIn: '20 mins',
+      ip: '255.255.255.0',
+      profileId: 1,
+    })
     timeTravel(21 * 60)
 
     const freshToken = await User.authTokens.verify(new Secret(token.value!.release()))
@@ -557,6 +571,8 @@ test.group('Access tokens provider | DB | find', () => {
     const token = await User.authTokens.create(user, ['*'], {
       expiresIn: '20 mins',
       name: 'List projects',
+      ip: '255.255.255.0',
+      profileId: 1,
     })
     timeTravel(21 * 60)
     const freshToken = await User.authTokens.find(user, token.identifier)
@@ -634,7 +650,12 @@ test.group('Access tokens provider | DB | all', () => {
       password: 'secret',
     })
 
-    await User.authTokens.create(user, ['*'], { expiresIn: '20 mins', name: 'List projects' })
+    await User.authTokens.create(user, ['*'], {
+      expiresIn: '20 mins',
+      name: 'List projects',
+      ip: '255.255.255.0',
+      profileId: 1,
+    })
     await User.authTokens.create(user)
     timeTravel(21 * 60)
     const tokens = await User.authTokens.all(user)
@@ -695,7 +716,11 @@ test.group('Access tokens provider | DB | all', () => {
       password: 'secret',
     })
 
-    const token = await User.authTokens.create(user, ['*'], { expiresIn: '20 mins' })
+    const token = await User.authTokens.create(user, ['*'], {
+      expiresIn: '20 mins',
+      ip: '255.255.255.0',
+      profileId: 1,
+    })
     await User.authTokens.create(user)
 
     /**
@@ -749,7 +774,11 @@ test.group('Access tokens provider | DB | invalidate', () => {
       password: 'secret',
     })
 
-    const token = await User.authTokens.create(user, ['*'], { name: 'List projects' })
+    const token = await User.authTokens.create(user, ['*'], {
+      name: 'List projects',
+      ip: '255.255.255.0',
+      profileId: 1,
+    })
 
     assert.isNotEmpty(await User.authTokens.all(user))
 
@@ -810,7 +839,11 @@ test.group('Access tokens provider | DB | invalidate', () => {
       password: 'secret',
     })
 
-    const token = await User.authTokens.create(user, ['*'], { name: 'List projects' })
+    const token = await User.authTokens.create(user, ['*'], {
+      name: 'List projects',
+      ip: '255.255.255.0',
+      profileId: 1,
+    })
     await User.authTokens.invalidate(token.value!)
 
     const invalidateResult = await User.authTokens.invalidate(token.value!)

@@ -113,6 +113,9 @@ export class AccessToken {
    */
   tokenableId: string | number | BigInt
 
+  profileId: number
+  ip: string
+
   /**
    * The value is a public representation of a token. It is created
    * by combining the "identifier"."secret"
@@ -165,6 +168,8 @@ export class AccessToken {
   constructor(attributes: {
     identifier: string | number | BigInt
     tokenableId: string | number | BigInt
+    profileId: number
+    ip: string
     type: string
     hash: string
     createdAt: Date
@@ -178,6 +183,8 @@ export class AccessToken {
   }) {
     this.identifier = attributes.identifier
     this.tokenableId = attributes.tokenableId
+    this.profileId = attributes.profileId
+    this.ip = attributes.ip
     this.name = attributes.name
     this.hash = attributes.hash
     this.type = attributes.type
@@ -254,6 +261,8 @@ export class AccessToken {
       name: this.name,
       token: this.value ? this.value.release() : undefined,
       abilities: this.abilities,
+      profileId: this.profileId,
+      ip: this.ip,
       lastUsedAt: this.lastUsedAt,
       expiresAt: this.expiresAt,
     }
